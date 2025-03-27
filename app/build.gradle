@@ -7,7 +7,7 @@
 
 plugins {
     id 'groovy'
-    id 'application'
+    id 'java'
 }
 
 repositories {
@@ -15,16 +15,19 @@ repositories {
 }
 
 dependencies {
-    implementation 'org.codehaus.groovy:groovy-all:3.0.18'
-    testImplementation 'org.spockframework:spock-core:2.3-groovy-3.0'
+    implementation 'org.codehaus.groovy:groovy-all:3.0.20'
+    testImplementation 'org.spockframework:spock-core:2.3-groovy-4.0'
+    testRuntimeOnly 'net.bytebuddy:byte-buddy:1.14.6'
 }
 
 test {
-    useJUnitPlatform()
+    useJUnitPlatform()  // Ensures Spock tests run with JUnit
+    testLogging {
+        events "passed", "skipped", "failed"
+    }
+    reports {
+        junitXml.required = true
+        html.required = true
+    }
 }
-
-application {
-    mainClass = 'org.example.App'
-}
-
 
